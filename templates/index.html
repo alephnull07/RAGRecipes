@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recipe Generator</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+    <script>
+      function onSubmit(){
+        const btn = document.getElementById('submit-btn');
+        btn.disabled = true; btn.innerText = 'Generating...';
+      }
+    </script>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo"></div>
+      <h1>RAG-Recipes – Agentic Cooking Assistant</h1>
+    </div>
+    <p class="sub">Upload a food image. We’ll detect ingredients, use your Knowledge Base for context, and generate only a recipe title and instructions.</p>
+
+    <div class="row">
+      <div class="panel">
+        <form method="POST" action="/upload" enctype="multipart/form-data" onsubmit="onSubmit()">
+          <div class="file">
+            <label class="muted">Choose an image (JPG/PNG)</label>
+            <input type="file" name="image" accept="image/*" required />
+          </div>
+          <div>
+            <button class="btn" id="submit-btn" type="submit">Generate Recipe</button>
+          </div>
+        </form>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for msg in messages %}
+          <div class="alert">{{ msg }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+      </div>
+
+      <div class="panel">
+        {% if ingredients %}
+          <div style="margin-bottom:12px;">
+            <div class="muted" style="margin-bottom:6px;">Detected ingredients</div>
+            <div class="ingredients">
+              {% for ing in ingredients %}
+                <span class="pill">{{ ing }}</span>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+
+        {% if recipe_text %}
+          <div class="result">
+            <h2>Generated Recipe</h2>
+            <pre>{{ recipe_text }}</pre>
+          </div>
+        {% else %}
+          <div class="result" style="opacity:.85;">
+            <h2>Generated Recipe</h2>
+            <pre class="muted">Your recipe will appear here after you upload an image.</pre>
+          </div>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
+
