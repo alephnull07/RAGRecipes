@@ -2,8 +2,9 @@
 
 An AI-powered cooking assistant that uses Retrieval-Augmented Generation (RAG) to craft delicious, data-backed recipes from a simple photo of your ingredients.
 
-![RAGRecipes Demo](https://placehold.co/800x400/orange/white?text=RAGRecipes+App+Screenshot)
-*Replace with a screenshot or GIF of your application.*
+![RAGRecipes Demo](DEMO_IMAGE.png)
+
+[![Watch the demo video](https://img.youtube.com/vi/n74afCo64-Y/maxresdefault.jpg)](https://www.youtube.com/watch?v=n74afCo64-Y)
 
 ---
 
