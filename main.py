@@ -7,11 +7,15 @@ from typing import Dict, List, Optional
 from flask import Flask, render_template, request, redirect, url_for, flash
 from werkzeug.utils import secure_filename
 
-# Path to the image
-PATH_TO_IMAGE = '/Users/aaravmaheshwari/Hackathon/test.jpg'
+# --- Configuration ---
+# Load environment variables for configuration
+GOOGLE_APPLICATION_CREDENTIALS = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS", './camer-cooked-key.json')
+BEDROCK_KB_ID = os.environ.get("BEDROCK_KB_ID", "WBEE2GZJPH") # Default KB ID
+UPLOAD_FOLDER = os.environ.get("UPLOAD_FOLDER", "uploads")
 
 # Initialize the client with the service account key
 client = vision.ImageAnnotatorClient.from_service_account_json('./camer-cooked-key.json')
+client = vision.ImageAnnotatorClient.from_service_account_json(GOOGLE_APPLICATION_CREDENTIALS)
 
 def get_image_labels(image_path):
     try:
@@ -205,6 +209,7 @@ def upload():
         ingredients = parse_ingredient_list(normalized_text)
         KB_ID = "WBEE2GZJPH"
         recipe_text = generate_recipe_with_kb(ingredients, KB_ID)
+        recipe_text = generate_recipe_with_kb(ingredients, BEDROCK_KB_ID)
         return render_template("index.html", recipe_text=recipe_text, ingredients=ingredients)
     else:
         flash("File type not allowed. Please upload a PNG/JPG/JPEG.")
